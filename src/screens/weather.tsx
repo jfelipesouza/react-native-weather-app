@@ -12,13 +12,13 @@ import {
 import {useMMKVString} from 'react-native-mmkv';
 
 import {Weather} from '../@types/weather';
-import {axios} from '../services/axios';
 import {TOKENS} from '../services/tokens';
 import {colors} from '../theme/colors';
 import {round} from '../services/math';
 import {WeatherItem} from '../components/WeatherItem';
 import {WeatherDay} from '../components/WeatherDay';
 import {transformDate} from '../services/date';
+import {axios} from '../services/axios';
 
 const {width, height} = Dimensions.get('window');
 
@@ -29,10 +29,9 @@ export const WeatherScreen: React.FC = () => {
   const fetchWeatherData = async (city: string, numberOfDays: number) => {
     try {
       const response = await axios.get(
-        `forecast?${TOKENS.DEFAULT_SETTINGS}&appid=${TOKENS.API_KEY}&cnt=${numberOfDays}&q=${city}`,
+        `/forecast?${TOKENS.DEFAULT_SETTINGS}&appid=${TOKENS.API_KEY}&cnt=${numberOfDays}&q=${city}`,
       );
-      const data = await response.data;
-
+      const data = (await response.data) as Weather;
       setWeatherData(data);
     } catch (error) {
       console.error(error);
@@ -51,7 +50,7 @@ export const WeatherScreen: React.FC = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.bg} barStyle={'light-content'} />
       {weatherData === null ? (
-        <ActivityIndicator />
+        <ActivityIndicator size={120} />
       ) : (
         <View style={styles.content}>
           <View style={styles.headerContainer}>
@@ -98,7 +97,7 @@ export const WeatherScreen: React.FC = () => {
 
           <FlatList
             data={weatherData.list}
-            renderItem={({item, index}) => (
+            renderItem={({item}) => (
               <WeatherDay
                 day={transformInTitle(transformDate(item.dt))}
                 maxTemp={round(item.main.temp_max)}

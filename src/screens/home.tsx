@@ -6,33 +6,44 @@ import {
   StyleSheet,
   StatusBar,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {colors} from '../theme/colors';
-import {axios} from '../services/axios';
 import {TOKENS} from '../services/tokens';
 import {useMMKVString} from 'react-native-mmkv';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParams} from '../routers/stack';
+import {axios} from '../services/axios';
 
 export const HomeScreen = () => {
   const [input, setInput] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
   const [locale, setLocale] = useMMKVString('location');
-  const navigation = useNavigation<StackNavigationProp<StackParams>>();
+
   const fetchWeather = async () => {
-    console.log(input);
     try {
       const response = await axios.get(
-        `forecast?${TOKENS.DEFAULT_SETTINGS}&appid=${TOKENS.API_KEY}&cnt=5&q=${input}`,
+        `/forecast?${TOKENS.DEFAULT_SETTINGS}&appid=${TOKENS.API_KEY}&cnt=1&q=${input}`,
       );
+
       const data = await response.data;
-      if (data) {
-        inputRef.current?.clear();
-        setLocale(input);
-        navigation.replace('weatherScreen');
+
+      if (data.message !== 0) {
+        throw new Error(data.message);
       }
-    } catch (error) {
+
+      Alert.alert('Error', JSON.stringify(data, null, 2), [
+        {
+          text: 'Confirm',
+          onPress: () => {
+            setLocale(input);
+            inputRef.current?.clear();
+          },
+        },
+      ]);
+    } catch (error: any) {
+      Alert.alert('Error', JSON.stringify(error.message));
       console.warn(error);
     }
   };

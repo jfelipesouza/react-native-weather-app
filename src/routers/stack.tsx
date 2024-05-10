@@ -12,17 +12,9 @@ export type StackParams = {
   weatherScreen: undefined;
 };
 
+export type StackRouters = 'home' | 'weatherScreen';
 const NavigationStack: React.FC = () => {
-  const [routerName, setRouterName] = useState<'home' | 'weatherScreen'>();
   const [localName] = useMMKVString('location');
-
-  useEffect(() => {
-    if (typeof localName !== 'undefined') {
-      setRouterName('weatherScreen');
-    } else {
-      setRouterName('home');
-    }
-  }, []);
 
   if (typeof localName === 'undefined') {
     return (
@@ -31,7 +23,6 @@ const NavigationStack: React.FC = () => {
           headerShown: false,
         }}>
         <Screen name="home" component={HomeScreen} />
-        <Screen name="weatherScreen" component={WeatherScreen} />
       </Navigator>
     );
   }
