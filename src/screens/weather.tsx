@@ -8,8 +8,9 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
-import {useMMKVString} from 'react-native-mmkv';
+import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
 
 import {Weather} from '../@types/weather';
 import {TOKENS} from '../services/tokens';
@@ -24,16 +25,30 @@ const {width, height} = Dimensions.get('window');
 
 export const WeatherScreen: React.FC = () => {
   const [weatherData, setWeatherData] = useState<Weather | null>(null);
-  const [localName] = useMMKVString('location');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [locationInfo, setLocationInfo] = useMMKVString('location');
+  const [location] = useMMKVString('locationName');
+  const [expires] = useMMKVNumber('Expires');
 
-  const fetchWeatherData = async (city: string, numberOfDays: number) => {
+  const fetchWeatherData = async (city: string) => {
     try {
       const response = await axios.get(
-        `/forecast?${TOKENS.DEFAULT_SETTINGS}&appid=${TOKENS.API_KEY}&cnt=${numberOfDays}&q=${city}`,
+        `/forecast?${TOKENS.DEFAULT_SETTINGS}&appid=${TOKENS.API_KEY}&q=${city}`,
       );
       const data = (await response.data) as Weather;
+      if (data.message !== 0) {
+        throw new Error(data.message);
+      }
       setWeatherData(data);
-    } catch (error) {
+      setLocationInfo(JSON.stringify(data));
+    } catch (error: any) {
+      Alert.alert(
+        'Error',
+        `Tivemos um problema do tipo ${JSON.stringify(
+          error.message,
+        )}. Tente mais tarde, caso erro persista entrar em contato com o suporte.`,
+        [{text: 'ok'}],
+      );
       console.error(error);
     }
   };
@@ -43,13 +58,28 @@ export const WeatherScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchWeatherData(localName as string, 8);
+    if (expires && expires < Date.now()) {
+      fetchWeatherData(location!);
+    } else if (locationInfo && locationInfo.trim() !== '') {
+      const data = JSON.parse(locationInfo) as Weather;
+      setWeatherData(data);
+    } else {
+      fetchWeatherData(location!);
+    }
   }, []);
+
+  useEffect(() => {
+    if (weatherData === null) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [weatherData]);
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.bg} barStyle={'light-content'} />
-      {weatherData === null ? (
+      {loading || weatherData === null ? (
         <ActivityIndicator size={120} />
       ) : (
         <View style={styles.content}>

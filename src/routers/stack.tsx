@@ -13,6 +13,7 @@ export type StackParams = {
 };
 
 export type StackRouters = 'home' | 'weatherScreen';
+
 const NavigationStack: React.FC = () => {
   const [localName] = useMMKVString('location');
 

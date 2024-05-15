@@ -30,4 +30,5 @@ type WeatherCity = {
 export type Weather = {
   list: WeatherList[];
   city: WeatherCity;
+  message: any;
 };
