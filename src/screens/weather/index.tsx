@@ -12,16 +12,17 @@ import {
 } from 'react-native';
 import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
 
-import {Weather} from '../@types/weather';
-import {TOKENS} from '../services/tokens';
-import {colors} from '../theme/colors';
-import {round} from '../services/math';
-import {WeatherItem} from '../components/WeatherItem';
-import {WeatherDay} from '../components/WeatherDay';
-import {transformDate} from '../services/date';
-import {axios} from '../services/axios';
+import {Weather} from '../../@types/weather';
+import {TOKENS} from '../../services/tokens';
+import {colors} from '../../theme/colors';
+import {round} from '../../services/math';
+import {WeatherItem} from '../../components/WeatherItem';
+import {WeatherDay} from '../../components/WeatherDay';
+import {transformDate} from '../../services/date';
+import {axios} from '../../services/axios';
+import styles from './styles';
 
-const {width, height} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 export const WeatherScreen: React.FC = () => {
   const [weatherData, setWeatherData] = useState<Weather | null>(null);
@@ -148,50 +149,3 @@ export const WeatherScreen: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.bg,
-  },
-  content: {
-    paddingVertical: 10,
-    gap: 40,
-    flex: 1,
-  },
-  headerContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontWeight: '700',
-    fontSize: 30,
-    color: colors.textWhite,
-  },
-  headerSubTitle: {
-    fontWeight: '600',
-    fontSize: 24,
-    color: colors.textGray,
-  },
-  weatherContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  weatherTemp: {
-    fontWeight: '700',
-    fontSize: 80,
-    color: colors.textWhite,
-  },
-  weatherInfo: {
-    width: width - 30,
-    backgroundColor: colors.bgItem,
-    alignSelf: 'center',
-    paddingHorizontal: 20,
-    borderRadius: 10,
-  },
-});

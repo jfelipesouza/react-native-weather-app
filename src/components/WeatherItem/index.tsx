@@ -1,28 +1,9 @@
-import {Thermometer, Droplet, Wind, CloudRain} from 'lucide-react-native';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {colors} from '../../theme/colors';
+import {Text, View} from 'react-native';
 
-type WeatherItemProps = {
-  type?: 'thermometer' | 'droplet' | 'wind' | 'rain';
-  border?: boolean;
-  category: string;
-  value: string;
-};
-
-const Icon = (type: 'thermometer' | 'droplet' | 'wind' | 'rain') => {
-  if (type === 'droplet') {
-    return <Droplet size={24} color={colors.icon} />;
-  } else if (type === 'rain') {
-    return <CloudRain size={24} color={colors.icon} />;
-  } else if (type === 'thermometer') {
-    return <Thermometer size={24} color={colors.icon} />;
-  } else if (type === 'wind') {
-    return <Wind size={24} color={colors.icon} />;
-  }
-
-  return;
-};
+import {WeatherItemProps} from '../../@types/weather';
+import {Icon} from './icon';
+import styles from './styles';
 
 export const WeatherItem: React.FC<WeatherItemProps> = ({
   type,
@@ -40,29 +21,3 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  weatherItemContainer: {
-    width: '100%',
-    paddingVertical: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  border: {
-    borderBottomWidth: 1.5,
-    borderColor: colors.border,
-  },
-  weatherItemCategoryContainer: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  weatherItemCategoryValue: {
-    fontSize: 18,
-    alignItems: 'center',
-    color: colors.textGray,
-  },
-  weatherItemValeu: {
-    color: colors.textGray,
-    fontSize: 18,
-  },
-});

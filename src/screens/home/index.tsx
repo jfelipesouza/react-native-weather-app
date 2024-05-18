@@ -1,19 +1,18 @@
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {
   View,
   TextInput,
   Text,
-  StyleSheet,
   StatusBar,
-  Dimensions,
   Alert,
   ActivityIndicator,
 } from 'react-native';
 import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
 
-import {colors} from '../theme/colors';
-import {TOKENS} from '../services/tokens';
-import {axios} from '../services/axios';
+import {axios} from '../../services/axios';
+import {TOKENS} from '../../services/tokens';
+import {colors} from '../../theme/colors';
+import styles from './styles';
 
 export const HomeScreen = () => {
   const [input, setInput] = useState<string>('');
@@ -86,31 +85,3 @@ export const HomeScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.bg,
-  },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20,
-  },
-  title: {
-    fontSize: 25,
-    color: colors.textWhite,
-    alignSelf: 'flex-start',
-  },
-  input: {
-    color: colors.textWhite,
-    backgroundColor: colors.bgItem,
-    width: Dimensions.get('screen').width * 0.8,
-    paddingHorizontal: 10,
-    fontSize: 18,
-    paddingVertical: 20,
-    borderRadius: 8,
-    borderColor: colors.border,
-    borderWidth: 1,
-  },
-});
