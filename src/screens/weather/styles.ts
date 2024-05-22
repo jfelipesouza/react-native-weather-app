@@ -2,7 +2,7 @@ import {Dimensions, StyleSheet} from 'react-native';
 import {colors} from '../../theme/colors';
 import {fontSize} from '../../theme/fonts';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -15,6 +15,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     gap: 40,
     flex: 1,
+  },
+  listContent: {
+    alignSelf: 'flex-end',
+    maxHeight: height,
+    paddingHorizontal: 10,
+    gap: 20,
   },
   headerContainer: {
     width: '100%',

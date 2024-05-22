@@ -4,7 +4,6 @@ import {
   Text,
   FlatList,
   StatusBar,
-  Dimensions,
   TouchableOpacity,
   ActivityIndicator,
   Alert,
@@ -13,6 +12,7 @@ import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
 
 import {Weather} from '../../@types/weather';
 import {colors} from '../../theme/colors';
+import {fontSize} from '../../theme/fonts';
 import {WeatherItem} from '../../components/WeatherItem';
 import {WeatherDay} from '../../components/WeatherDay';
 import {TOKENS} from '../../services/tokens';
@@ -20,16 +20,13 @@ import {axios} from '../../services/axios';
 import {round} from '../../services/math';
 import {transformDate} from '../../services/date';
 import styles from './styles';
-import {fontSize} from '../../theme/fonts';
-
-const {height} = Dimensions.get('window');
 
 export const WeatherScreen: React.FC = () => {
   const [weatherData, setWeatherData] = useState<Weather | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [locationInfo, setLocationInfo] = useMMKVString('location');
   const [location] = useMMKVString('locationName');
-  const [expires] = useMMKVNumber('Expires');
+  const [expires, setExpires] = useMMKVNumber('Expires');
 
   const fetchWeatherData = async (city: string) => {
     try {
@@ -41,16 +38,17 @@ export const WeatherScreen: React.FC = () => {
         throw new Error(data.message);
       }
       setWeatherData(data);
+      setExpires(data!.list[1].dt * 10000);
       setLocationInfo(JSON.stringify(data));
     } catch (error: any) {
-      Alert.alert(
+      console.error(error);
+      return Alert.alert(
         'Error',
         `Tivemos um problema do tipo ${JSON.stringify(
           error.message,
         )}. Tente mais tarde, caso erro persista entrar em contato com o suporte.`,
         [{text: 'ok'}],
       );
-      console.error(error);
     }
   };
 
@@ -139,12 +137,7 @@ export const WeatherScreen: React.FC = () => {
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              alignSelf: 'flex-end',
-              maxHeight: height,
-              paddingHorizontal: 10,
-              gap: 20,
-            }}
+            contentContainerStyle={styles.listContent}
           />
         </View>
       )}
