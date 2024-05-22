@@ -12,8 +12,8 @@ import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
 import {axios} from '../../services/axios';
 import {TOKENS} from '../../services/tokens';
 import {colors} from '../../theme/colors';
-import styles from './styles';
 import {fontSize} from '../../theme/fonts';
+import styles from './styles';
 
 export const HomeScreen = () => {
   const [input, setInput] = useState<string>('');
@@ -66,13 +66,17 @@ export const HomeScreen = () => {
     <View style={[styles.container, styles.content]}>
       <StatusBar backgroundColor={colors.bg} barStyle={'light-content'} />
       {laoding ? (
-        <View style={{flexDirection: 'row', justifyContent: 'center', gap: 20}}>
-          <Text style={styles.title}>Buscando clima</Text>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.title} maxFontSizeMultiplier={1.1}>
+            Buscando clima
+          </Text>
           <ActivityIndicator size={fontSize.title} color={colors.blue} />
         </View>
       ) : (
         <View style={styles.content}>
-          <Text style={styles.title}>Qual a sua localização?</Text>
+          <Text style={styles.title} maxFontSizeMultiplier={1.1}>
+            Qual a sua localização?
+          </Text>
           <TextInput
             style={styles.input}
             placeholderTextColor={colors.textGray}
@@ -80,6 +84,7 @@ export const HomeScreen = () => {
             onChangeText={text => setInput(text)}
             onSubmitEditing={fetchWeather}
             ref={inputRef}
+            maxFontSizeMultiplier={1.1}
           />
         </View>
       )}
