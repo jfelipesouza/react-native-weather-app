@@ -4,7 +4,6 @@ import {
   Text,
   FlatList,
   StatusBar,
-  StyleSheet,
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
@@ -13,14 +12,15 @@ import {
 import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
 
 import {Weather} from '../../@types/weather';
-import {TOKENS} from '../../services/tokens';
 import {colors} from '../../theme/colors';
-import {round} from '../../services/math';
 import {WeatherItem} from '../../components/WeatherItem';
 import {WeatherDay} from '../../components/WeatherDay';
-import {transformDate} from '../../services/date';
+import {TOKENS} from '../../services/tokens';
 import {axios} from '../../services/axios';
+import {round} from '../../services/math';
+import {transformDate} from '../../services/date';
 import styles from './styles';
+import {fontSize} from '../../theme/fonts';
 
 const {height} = Dimensions.get('window');
 
@@ -81,7 +81,7 @@ export const WeatherScreen: React.FC = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.bg} barStyle={'light-content'} />
       {loading || weatherData === null ? (
-        <ActivityIndicator size={120} />
+        <ActivityIndicator size={fontSize.title * 4} color={colors.blue} />
       ) : (
         <View style={styles.content}>
           <View style={styles.headerContainer}>

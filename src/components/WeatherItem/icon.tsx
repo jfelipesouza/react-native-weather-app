@@ -8,17 +8,18 @@ import {
 
 import {WeatherTypes} from '../../@types/weather';
 import {colors} from '../../theme/colors';
+import {fontSize} from '../../theme/fonts';
 
 export const Icon = (type: WeatherTypes) => {
   if (type === 'droplet') {
-    return <Droplet size={24} color={colors.icon} />;
+    return <Droplet size={fontSize.icon} color={colors.icon} />;
   } else if (type === 'rain') {
-    return <CloudRain size={24} color={colors.icon} />;
+    return <CloudRain size={fontSize.icon} color={colors.icon} />;
   } else if (type === 'thermometer') {
-    return <Thermometer size={24} color={colors.icon} />;
+    return <Thermometer size={fontSize.icon} color={colors.icon} />;
   } else if (type === 'wind') {
-    return <Wind size={24} color={colors.icon} />;
+    return <Wind size={fontSize.icon} color={colors.icon} />;
   }
 
-  return <AsteriskIcon size={24} color={colors.icon} />;
+  return <AsteriskIcon size={fontSize.icon} color={colors.icon} />;
 };

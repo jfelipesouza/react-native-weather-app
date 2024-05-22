@@ -1,5 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {colors} from '../../theme/colors';
+import {fontSize} from '../../theme/fonts';
 
 const {width} = Dimensions.get('window');
 
@@ -17,12 +18,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   day: {
-    fontSize: 22,
+    fontSize: fontSize.day,
     color: colors.textGray,
     fontWeight: '900',
     marginBottom: 10,
   },
-  temp: {fontSize: 16, color: colors.textGray, fontWeight: '700'},
+  temp: {
+    fontSize: fontSize.temp,
+    color: colors.textGray,
+    fontWeight: '700',
+  },
 });
 
 export default styles;

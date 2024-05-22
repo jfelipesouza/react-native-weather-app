@@ -1,5 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {colors} from '../../theme/colors';
+import {fontSize} from '../../theme/fonts';
 
 const {width} = Dimensions.get('window');
 
@@ -24,12 +25,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontWeight: '700',
-    fontSize: 30,
+    fontSize: fontSize.title,
     color: colors.textWhite,
   },
   headerSubTitle: {
     fontWeight: '600',
-    fontSize: 24,
+    fontSize: fontSize.subtitle,
     color: colors.textGray,
   },
   weatherContent: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   },
   weatherTemp: {
     fontWeight: '700',
-    fontSize: 80,
+    fontSize: fontSize.weatherTemp,
     color: colors.textWhite,
   },
   weatherInfo: {

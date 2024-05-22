@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {colors} from '../../theme/colors';
+import {fontSize} from '../../theme/fonts';
 
 const styles = StyleSheet.create({
   weatherItemContainer: {
@@ -17,13 +18,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   weatherItemCategoryValue: {
-    fontSize: 18,
+    fontSize: fontSize.input,
     alignItems: 'center',
     color: colors.textGray,
   },
   weatherItemValeu: {
     color: colors.textGray,
-    fontSize: 18,
+    fontSize: fontSize.input,
   },
 });
 

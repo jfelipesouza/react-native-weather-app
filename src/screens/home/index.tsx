@@ -13,6 +13,7 @@ import {axios} from '../../services/axios';
 import {TOKENS} from '../../services/tokens';
 import {colors} from '../../theme/colors';
 import styles from './styles';
+import {fontSize} from '../../theme/fonts';
 
 export const HomeScreen = () => {
   const [input, setInput] = useState<string>('');
@@ -67,7 +68,7 @@ export const HomeScreen = () => {
       {laoding ? (
         <View style={{flexDirection: 'row', justifyContent: 'center', gap: 20}}>
           <Text style={styles.title}>Buscando clima</Text>
-          <ActivityIndicator size={30} />
+          <ActivityIndicator size={fontSize.title} color={colors.blue} />
         </View>
       ) : (
         <View style={styles.content}>
