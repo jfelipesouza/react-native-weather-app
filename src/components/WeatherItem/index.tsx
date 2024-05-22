@@ -17,7 +17,9 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
         {type && Icon(type)}
         <Text style={styles.weatherItemCategoryValue}>{category}</Text>
       </View>
-      <Text style={styles.weatherItemValeu}>{value}</Text>
+      <Text maxFontSizeMultiplier={1.1} style={styles.weatherItemValeu}>
+        {value}
+      </Text>
     </View>
   );
 };

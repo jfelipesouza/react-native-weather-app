@@ -86,8 +86,10 @@ export const WeatherScreen: React.FC = () => {
         <View style={styles.content}>
           <View style={styles.headerContainer}>
             <View>
-              <Text style={styles.headerTitle}>{weatherData.city.name}</Text>
-              <Text style={styles.headerSubTitle}>
+              <Text maxFontSizeMultiplier={1.1} style={styles.headerTitle}>
+                {weatherData.city.name}
+              </Text>
+              <Text maxFontSizeMultiplier={1.1} style={styles.headerSubTitle}>
                 {transformInTitle(weatherData.list[0].weather[0].description)}
               </Text>
             </View>
@@ -95,7 +97,7 @@ export const WeatherScreen: React.FC = () => {
           </View>
 
           <View style={styles.weatherContent}>
-            <Text style={styles.weatherTemp}>
+            <Text maxFontSizeMultiplier={1.1} style={styles.weatherTemp}>
               {round(weatherData.list[0].main.temp)}°C
             </Text>
           </View>
