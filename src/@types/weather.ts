@@ -40,6 +40,7 @@ export type WeatherDayProps = {
 };
 
 export type WeatherTypes = 'thermometer' | 'droplet' | 'wind' | 'rain';
+
 export type WeatherItemProps = {
   type?: WeatherTypes;
   border?: boolean;

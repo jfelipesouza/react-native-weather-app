@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     maxHeight: height,
     paddingHorizontal: 10,
     gap: 20,
@@ -54,6 +54,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 20,
     borderRadius: 10,
+  },
+  searchButton: {
+    backgroundColor: colors.icon,
+    padding: 10,
+    borderRadius: 5,
   },
 });
 

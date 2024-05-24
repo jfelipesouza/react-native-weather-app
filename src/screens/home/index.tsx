@@ -1,13 +1,6 @@
 import {useRef, useState} from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  StatusBar,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
-import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
+import {View, TextInput, Text, Alert, ActivityIndicator} from 'react-native';
+import {useMMKVString} from 'react-native-mmkv';
 
 import {axios} from '../../services/axios';
 import {TOKENS} from '../../services/tokens';
@@ -15,13 +8,15 @@ import {colors} from '../../theme/colors';
 import {fontSize} from '../../theme/fonts';
 import styles from './styles';
 
-export const HomeScreen = () => {
+export const HomeScreen: React.FC = () => {
   const [input, setInput] = useState<string>('');
   const [laoding, setLoading] = useState<boolean>(false);
   const inputRef = useRef<TextInput>(null);
-  const [locationName, setLocationName] = useMMKVString('locationName');
-  const [LocationIfo, setLocationInfo] = useMMKVString('location');
-  const [expires, setExpires] = useMMKVNumber('Expires');
+
+  const [locationName, setLocationName] = useMMKVString(TOKENS.LOCATION_NAME);
+  const [currentLocation, setCurrentLocation] = useMMKVString(
+    TOKENS.CURRENT_LOCATION,
+  );
 
   const fetchWeather = async () => {
     setLoading(true);
@@ -40,10 +35,8 @@ export const HomeScreen = () => {
         {
           text: 'Salvar',
           onPress: () => {
+            setCurrentLocation(input);
             setLocationName(input);
-            setExpires(data.list[1].dt * 1000);
-            setLocationInfo(JSON.stringify(data));
-
             inputRef.current?.clear();
           },
         },
@@ -56,7 +49,6 @@ export const HomeScreen = () => {
       ]);
     } catch (error: any) {
       Alert.alert('Error', JSON.stringify(error.message));
-      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -64,7 +56,6 @@ export const HomeScreen = () => {
 
   return (
     <View style={[styles.container, styles.content]}>
-      <StatusBar backgroundColor={colors.bg} barStyle={'light-content'} />
       {laoding ? (
         <View style={styles.loadingContainer}>
           <Text style={styles.title} maxFontSizeMultiplier={1.1}>

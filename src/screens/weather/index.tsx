@@ -8,8 +8,12 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import {useMMKVNumber, useMMKVString} from 'react-native-mmkv';
+import {Search} from 'lucide-react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useMMKVString} from 'react-native-mmkv';
 
+import {StackParams} from '../../@types/screens';
 import {Weather} from '../../@types/weather';
 import {colors} from '../../theme/colors';
 import {fontSize} from '../../theme/fonts';
@@ -24,9 +28,13 @@ import styles from './styles';
 export const WeatherScreen: React.FC = () => {
   const [weatherData, setWeatherData] = useState<Weather | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [locationInfo, setLocationInfo] = useMMKVString('location');
-  const [location] = useMMKVString('locationName');
-  const [expires, setExpires] = useMMKVNumber('Expires');
+
+  const [location] = useMMKVString(TOKENS.LOCATION_NAME);
+  const [currentLocation, setCurrentLocation] = useMMKVString(
+    TOKENS.CURRENT_LOCATION,
+  );
+
+  const navigation = useNavigation<StackNavigationProp<StackParams>>();
 
   const fetchWeatherData = async (city: string) => {
     try {
@@ -38,8 +46,6 @@ export const WeatherScreen: React.FC = () => {
         throw new Error(data.message);
       }
       setWeatherData(data);
-      setExpires(data!.list[1].dt * 10000);
-      setLocationInfo(JSON.stringify(data));
     } catch (error: any) {
       console.error(error);
       return Alert.alert(
@@ -56,16 +62,18 @@ export const WeatherScreen: React.FC = () => {
     return text[0].toLocaleUpperCase() + text.slice(1, text.length);
   };
 
-  useEffect(() => {
-    if (expires && expires < Date.now()) {
-      fetchWeatherData(location!);
-    } else if (locationInfo && locationInfo.trim() !== '') {
-      const data = JSON.parse(locationInfo) as Weather;
-      setWeatherData(data);
-    } else {
-      fetchWeatherData(location!);
+  const handleNavigate = () => {
+    navigation.replace('searchScreen');
+  };
+
+  const loadingPage = () => {
+    if (currentLocation !== location) {
+      setCurrentLocation(location);
     }
-  }, []);
+    fetchWeatherData(location!);
+  };
+
+  useFocusEffect(React.useCallback(loadingPage, []));
 
   useEffect(() => {
     if (weatherData === null) {
@@ -78,6 +86,7 @@ export const WeatherScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={colors.bg} barStyle={'light-content'} />
+
       {loading || weatherData === null ? (
         <ActivityIndicator size={fontSize.title * 4} color={colors.blue} />
       ) : (
@@ -91,7 +100,11 @@ export const WeatherScreen: React.FC = () => {
                 {transformInTitle(weatherData.list[0].weather[0].description)}
               </Text>
             </View>
-            <TouchableOpacity></TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleNavigate}
+              style={styles.searchButton}>
+              <Search size={20} color={colors.textWhite} />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.weatherContent}>
