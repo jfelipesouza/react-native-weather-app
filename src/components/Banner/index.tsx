@@ -6,6 +6,7 @@ import {
   TestIds,
   useForeground,
 } from 'react-native-google-mobile-ads';
+import {colors} from '../../theme/colors';
 
 export const BannerComponent: React.FC = () => {
   const bannerRef = useRef<BannerAd>(null);
@@ -29,5 +30,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     marginBottom: 5,
+    backgroundColor: colors.bg,
   },
 });

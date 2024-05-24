@@ -30,9 +30,6 @@ export const WeatherScreen: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const [location] = useMMKVString(TOKENS.LOCATION_NAME);
-  const [currentLocation, setCurrentLocation] = useMMKVString(
-    TOKENS.CURRENT_LOCATION,
-  );
 
   const navigation = useNavigation<StackNavigationProp<StackParams>>();
 
@@ -67,9 +64,6 @@ export const WeatherScreen: React.FC = () => {
   };
 
   const loadingPage = () => {
-    if (currentLocation !== location) {
-      setCurrentLocation(location);
-    }
     fetchWeatherData(location!);
   };
 
@@ -94,7 +88,7 @@ export const WeatherScreen: React.FC = () => {
           <View style={styles.headerContainer}>
             <View>
               <Text maxFontSizeMultiplier={1.1} style={styles.headerTitle}>
-                {weatherData.city.name}
+                {location}
               </Text>
               <Text maxFontSizeMultiplier={1.1} style={styles.headerSubTitle}>
                 {transformInTitle(weatherData.list[0].weather[0].description)}
